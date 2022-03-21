@@ -2,7 +2,7 @@
 Scrapes indeed for jobs matching the fields you input.
 
 ## How to use:
-- Run `pip install .` in the terminal to install the required dependencies  
+- Run `pip install -r /requirements.txt` in the terminal to install the required dependencies  
  
 - Then type in `python main.py` for the program to start
 
