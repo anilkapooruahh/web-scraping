@@ -2,7 +2,9 @@
 Scrapes indeed for jobs matching the fields you input.
 
 ## How to use:
-- Run `pip install -r /requirements.txt` in the terminal to install the required dependencies  
+- Run `git clone https://github.com/anilkapooruahh/web-scraping.git` in the terminal
+- Run `cd web-scraping`
+- Run `pip install -r requirements.txt` in the terminal to install the required dependencies  
  
 - Then type in `python main.py` for the program to start
 
