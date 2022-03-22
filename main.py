@@ -7,8 +7,12 @@ def is_valid_job(text, skills):
     """(str, str list)-> bool
     Gets a job description and checks if the given skills are present in the description"""
 
-    return any([skill in text for skill in skills])
+    return skills == [] or any([skill in text for skill in skills]) 
 
+def location_coeff(div):
+    if "reviews" in div[6].text:
+        return div[13].text
+    return div[6].text
 
 # Input from user
 country_code_dict = {"ca" : "Canada", "in" : "India"}    
@@ -41,12 +45,18 @@ while filtered_jobs < AMOUNT:
 
         url = f"https://{COUNTRY_CODE}.indeed.com{job['href']}"
         
+
         job_text = requests.get(url).text
         job_soup = BeautifulSoup(job_text, features="lxml")
         job_info = job_soup.find('div', class_ = "jobsearch-DesktopStickyContainer")
+        # error handling
+        if job_info is None:
+            break
         job_name = job_info.find("h1", class_ = "jobsearch-JobInfoHeader-title" )
         job_company_name = job_info.find("div", class_ = "jobsearch-InlineCompanyRating")
+        job_subtitle = job_info.find("div", class_ = "jobsearch-JobInfoHeader-subtitle").find_all("div")
         
+        job_location = location_coeff(job_subtitle)
         # Checking if span.text has a dollar sign in it. Can be replaced by a list of currency symbols and helper func
         job_salary = job_info.find("div", id = "salaryInfoAndJobType")
         salary = "none provided"
@@ -67,6 +77,7 @@ while filtered_jobs < AMOUNT:
                 file.write(f"Title: {job_name.text}")
                 file.write('\n')
                 file.write(f"Company: {job_company_name.text}\n")
+                file.write(f"Location: {job_location}\n")
                 file.write(f"Salary: {salary}\n\n")
         print(jobs, filtered_jobs)       
 
@@ -77,27 +88,6 @@ while filtered_jobs < AMOUNT:
 print(jobs)
 print(SKILLS) 
 
-
-# def data(job):
-    
-#     result = ""
-#     company = job.find('div', class_ ="heading6 company_location tapItem-gutter companyInfo")
-#     salary  = job.find('div', class_ = 'salary-snippet')
-#     skills  = job.find('li')
-#     if company is not None:
-#         result += f"company: {company.text}\n"
-    
-#     if salary is not None:
-#         result += f"salary: {salary.text}\n"
-#     if skills is not None:
-#         result += f"skills: {skills.text}\n"
-#     result += "\n"
-
-#     with open("results.txt", "a") as file:
-#         file.write(result)
-
-# for job in jobs:
-#     data(job)
 
 
 
