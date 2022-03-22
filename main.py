@@ -60,7 +60,7 @@ while filtered_jobs < AMOUNT:
         # Checking if span.text has a dollar sign in it. Can be replaced by a list of currency symbols and helper func
         job_salary = job_info.find("div", id = "salaryInfoAndJobType")
         salary = "none provided"
-        if job_salary is not None and '$' in job_salary.span.text:
+        if job_salary is not None and ('$' in job_salary.span.text or '₹' in job_salary.span.text):
             salary = job_salary.span.text
 
         # Job description and skills
